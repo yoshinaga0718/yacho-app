@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
 
+
+function clientPointToLatLng(clientX, clientY) {
+    const rect = map.getContainer().getBoundingClientRect();
+    const point = L.point(clientX - rect.left, clientY - rect.top);
+    return map.containerPointToLatLng(point);
+}
+
 function toggleQuickNav(forceOpen = null) {
     const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
     document.body.classList.toggle('quick-nav-open', shouldOpen);
@@ -517,6 +524,20 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             user-select: none !important;
         }
 
+    
+        #drawTouchLayer {
+            display: none;
+            position: absolute;
+            inset: 0;
+            z-index: 6500;
+            background: transparent;
+            touch-action: none;
+            cursor: crosshair;
+        }
+        body.drawing-mode #drawTouchLayer {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -607,7 +628,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
                 <button class="tool-btn" onclick="undoLast()">↩️ 戻る</button>
                 <button class="tool-btn" onclick="redoLast()">↪️ 進む</button>
             </div>
-            <div id="map"></div>
+            <div id="map"></div><div id="drawTouchLayer"></div>
             <div id="edit-panel"><div id="dynamicInputsArea"></div><button class="primary" style="width:100%; margin-top:20px;" onclick="saveAnnot()">内容を保存して閉じる</button><button onclick="deleteAnnot()" style="width:100%; border:none; color:red; background:none; margin-top:10px;">削除</button></div>
         </section>
 
@@ -885,44 +906,61 @@ async function refreshAnnotations() {
 }
 function setupDrawing() {
     let d = false, pts = [], line = null;
+    const layer = document.getElementById('drawTouchLayer');
 
-    const stopTouchMove = (ev) => {
-        if(currentMode === 'draw') ev.preventDefault();
-    };
-    const container = map.getContainer();
-    container.removeEventListener('touchmove', stopTouchMove);
-    container.addEventListener('touchmove', stopTouchMove, { passive: false });
-
-    map.on('mousedown touchstart', e => {
+    const start = (ev) => {
         if(currentMode !== 'draw') return;
-        if(e.originalEvent) {
-            L.DomEvent.preventDefault(e.originalEvent);
-            L.DomEvent.stopPropagation(e.originalEvent);
-        }
+        ev.preventDefault();
+        ev.stopPropagation();
+        const touch = ev.touches ? ev.touches[0] : ev;
+        if(!touch) return;
+
         d = true;
-        pts = [e.latlng];
+        pts = [clientPointToLatLng(touch.clientX, touch.clientY)];
         line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map);
+
         map.dragging?.disable();
         map.touchZoom?.disable();
-    });
+        map.doubleClickZoom?.disable();
 
-    map.on('mousemove touchmove', e => {
+        if(ev.pointerId && layer.setPointerCapture) {
+            try { layer.setPointerCapture(ev.pointerId); } catch(e) {}
+        }
+    };
+
+    const move = (ev) => {
         if(!d || currentMode !== 'draw') return;
-        if(e.originalEvent) L.DomEvent.preventDefault(e.originalEvent);
-        pts.push(e.latlng);
-        line.setLatLngs(pts);
-    });
+        ev.preventDefault();
+        ev.stopPropagation();
+        const touch = ev.touches ? ev.touches[0] : ev;
+        if(!touch) return;
 
-    map.on('mouseup touchend', async e => {
+        const p = clientPointToLatLng(touch.clientX, touch.clientY);
+        pts.push(p);
+        if(line) line.setLatLngs(pts);
+    };
+
+    const end = async (ev) => {
         if(!d) return;
-        if(e?.originalEvent) L.DomEvent.preventDefault(e.originalEvent);
+        ev.preventDefault();
+        ev.stopPropagation();
         d = false;
 
         if(pts.length > 1) {
-            const a = { id: crypto.randomUUID(), projectId: currentProjectId, page: currentPage, type: 'line', points: pts.map(p=>[p.lat,p.lng]), color: currentColor, updatedAt: Date.now(), isDeleted: 0 };
+            const a = {
+                id: crypto.randomUUID(),
+                projectId: currentProjectId,
+                page: currentPage,
+                type: 'line',
+                points: pts.map(p=>[p.lat,p.lng]),
+                color: currentColor,
+                updatedAt: Date.now(),
+                isDeleted: 0
+            };
             await db.annotations.add(a);
             renderMarker(a);
         }
+
         if(line) map.removeLayer(line);
         line = null;
 
@@ -930,8 +968,37 @@ function setupDrawing() {
         if(currentMode !== 'draw') {
             map.dragging?.enable();
             map.touchZoom?.enable();
+            map.doubleClickZoom?.enable();
+        }
+    };
+
+    if(layer) {
+        layer.addEventListener('pointerdown', start, { passive: false });
+        layer.addEventListener('pointermove', move, { passive: false });
+        layer.addEventListener('pointerup', end, { passive: false });
+        layer.addEventListener('pointercancel', end, { passive: false });
+
+        // 古いiOS対策
+        layer.addEventListener('touchstart', start, { passive: false });
+        layer.addEventListener('touchmove', move, { passive: false });
+        layer.addEventListener('touchend', end, { passive: false });
+    }
+
+    // PCでは従来どおり地図上でも描けるように残す
+    map.on('mousedown', e => {
+        if(currentMode !== 'draw') return;
+        d = true;
+        pts = [e.latlng];
+        line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map);
+        map.dragging?.disable();
+    });
+    map.on('mousemove', e => {
+        if(d && currentMode === 'draw') {
+            pts.push(e.latlng);
+            if(line) line.setLatLngs(pts);
         }
     });
+    map.on('mouseup', end);
 }
 function toggleSetupUI() { document.getElementById('pdfGroup').style.display = (document.getElementById('setupMode').value==='pdf') ? 'block' : 'none'; }
 function renderSetupFields() { document.getElementById('customFieldList').innerHTML = currentFields.map((f, i) => `<span class="badge">${esc(f.name)}${f.photo?'📷':''}${i > 2 ? `<span onclick="removeField(${i})" style="cursor:pointer;font-weight:bold;margin-left:5px;">×</span>` : ''}</span>`).join(''); }
