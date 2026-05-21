@@ -10,10 +10,154 @@
     <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;調査マップ Pro&quot;,&quot;short_name&quot;:&quot;調査Pro&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#f8fafc&quot;,&quot;theme_color&quot;:&quot;#2563eb&quot;}" />
     <title>現地調査 Pro - 吹き出し強化版</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+
+function toggleQuickNav(forceOpen = null) {
+    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
+    document.body.classList.toggle('quick-nav-open', shouldOpen);
+}
+
+function quickSwitchView(id) {
+    toggleQuickNav(false);
+    switchView(id);
+}
+
+// 簡易オフライン起動対応
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+        const swCode = `
+            const CACHE_NAME = 'survey-pro-mobile-v1';
+            self.addEventListener('install', event => {
+                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
+                    './',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+                ])));
+            });
+            self.addEventListener('fetch', event => {
+                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    });
+}
+
+</script>
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js">
+
+function toggleQuickNav(forceOpen = null) {
+    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
+    document.body.classList.toggle('quick-nav-open', shouldOpen);
+}
+
+function quickSwitchView(id) {
+    toggleQuickNav(false);
+    switchView(id);
+}
+
+// 簡易オフライン起動対応
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+        const swCode = `
+            const CACHE_NAME = 'survey-pro-mobile-v1';
+            self.addEventListener('install', event => {
+                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
+                    './',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+                ])));
+            });
+            self.addEventListener('fetch', event => {
+                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    });
+}
+
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
+
+function toggleQuickNav(forceOpen = null) {
+    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
+    document.body.classList.toggle('quick-nav-open', shouldOpen);
+}
+
+function quickSwitchView(id) {
+    toggleQuickNav(false);
+    switchView(id);
+}
+
+// 簡易オフライン起動対応
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+        const swCode = `
+            const CACHE_NAME = 'survey-pro-mobile-v1';
+            self.addEventListener('install', event => {
+                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
+                    './',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+                ])));
+            });
+            self.addEventListener('fetch', event => {
+                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    });
+}
+
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+
+function toggleQuickNav(forceOpen = null) {
+    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
+    document.body.classList.toggle('quick-nav-open', shouldOpen);
+}
+
+function quickSwitchView(id) {
+    toggleQuickNav(false);
+    switchView(id);
+}
+
+// 簡易オフライン起動対応
+if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+        const swCode = `
+            const CACHE_NAME = 'survey-pro-mobile-v1';
+            self.addEventListener('install', event => {
+                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
+                    './',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+                ])));
+            });
+            self.addEventListener('fetch', event => {
+                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+    });
+}
+
+</script>
     <style>
         :root { --sidebar-width: 260px; --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; }
         body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
@@ -51,7 +195,7 @@
         .badge { display: inline-block; background: #f1f5f9; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin: 0 5px 5px 0; border: 1px solid #e2e8f0; }
 
         @media print {
-            .sidebar, .topbar, .edit-tools, .page-nav, #edit-panel, button, .mobile-nav-toggle, .map-ui-toggle { display: none !important; }
+            .sidebar, .topbar, .edit-tools, .page-nav, #edit-panel, button, .mobile-nav-toggle, .map-ui-toggle, .quick-nav-toggle, .quick-nav-panel { display: none !important; }
             .workspace, .view, #review { display: block !important; position: static !important; width: 100% !important; height: auto !important; overflow: visible !important; padding: 0 !important; }
             body { overflow: visible !important; background: white !important; color: #000 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
             #reviewArea, #reviewArea * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
@@ -286,11 +430,96 @@
             }
         }
 
+    
+        /* タブレット用：画面移動ショートカット */
+        .quick-nav-toggle,
+        .quick-nav-panel {
+            display: none;
+        }
+
+        @media (max-width: 1100px), (hover: none) and (pointer: coarse) and (max-width: 1366px) {
+            .quick-nav-toggle {
+                display: inline-flex !important;
+                position: fixed;
+                left: 12px;
+                bottom: 12px;
+                z-index: 7000;
+                border: none;
+                border-radius: 999px;
+                background: #0f172a;
+                color: #fff;
+                padding: 10px 14px;
+                font-size: 13px;
+                box-shadow: 0 4px 14px rgba(0,0,0,.28);
+                align-items: center;
+                justify-content: center;
+            }
+            body.quick-nav-open .quick-nav-panel {
+                display: grid !important;
+            }
+            .quick-nav-panel {
+                position: fixed;
+                left: 12px;
+                bottom: 58px;
+                z-index: 7000;
+                background: rgba(15, 23, 42, .96);
+                color: #fff;
+                border-radius: 14px;
+                padding: 10px;
+                gap: 8px;
+                grid-template-columns: 1fr;
+                box-shadow: 0 8px 24px rgba(0,0,0,.35);
+                min-width: 170px;
+            }
+            .quick-nav-panel button {
+                display: block;
+                width: 100%;
+                text-align: left;
+                border: 1px solid rgba(255,255,255,.18);
+                background: rgba(255,255,255,.08);
+                color: #fff;
+                border-radius: 10px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            .quick-nav-panel button:active {
+                background: rgba(37, 99, 235, .55);
+            }
+        }
+
+        @media (max-width: 1024px) and (orientation: landscape), (hover: none) and (pointer: coarse) and (max-width: 1366px) and (orientation: landscape) {
+            .quick-nav-toggle {
+                left: 10px;
+                bottom: 10px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            .quick-nav-panel {
+                left: 10px;
+                bottom: 50px;
+                min-width: 158px;
+                padding: 8px;
+                gap: 6px;
+            }
+            .quick-nav-panel button {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
 
 <div class="app-shell">
+<button id="quickNavToggle" class="quick-nav-toggle" type="button" onclick="toggleQuickNav()">画面移動</button>
+<div id="quickNavPanel" class="quick-nav-panel">
+    <button type="button" onclick="quickSwitchView('projects')">1 現場一覧</button>
+    <button type="button" onclick="quickSwitchView('setup')">2 現場・項目作成</button>
+    <button type="button" onclick="quickSwitchView('editor')">3 図面・地図編集</button>
+    <button type="button" onclick="quickSwitchView('review')">4 詳細確認</button>
+    <button type="button" onclick="quickSwitchView('export')">5 出力・共有</button>
+</div>
 <button id="mobileNavToggle" class="mobile-nav-toggle" type="button" onclick="toggleMobileNav()">☰ メニュー</button>
 <button id="mapUiToggle" class="map-ui-toggle" type="button" onclick="toggleMapUi()">🛠 ツール非表示</button>
     <aside class="sidebar">
@@ -366,6 +595,7 @@
                     <div class="color-dot" style="background:#000000" data-color="#000000"></div>
                 </div>
                 <button class="tool-btn" onclick="undoLast()">↩️ 戻る</button>
+                <button class="tool-btn" onclick="redoLast()">↪️ 進む</button>
             </div>
             <div id="map"></div>
             <div id="edit-panel"><div id="dynamicInputsArea"></div><button class="primary" style="width:100%; margin-top:20px;" onclick="saveAnnot()">内容を保存して閉じる</button><button onclick="deleteAnnot()" style="width:100%; border:none; color:red; background:none; margin-top:10px;">削除</button></div>
@@ -450,6 +680,7 @@ function switchView(id) {
     if(id==='editor' && map) { setTimeout(() => { map.invalidateSize(); }, 300); }
     if(isCompactScreen()) {
         document.body.classList.add('sidebar-hidden');
+        document.body.classList.remove('quick-nav-open');
         updateFloatingToggleLabels();
     }
 }
@@ -552,6 +783,7 @@ function rotateView() {
 
 /** 4. Annotations Logic **/
 async function addAnnot(ll) {
+    lastUndoId = null;
     const id = crypto.randomUUID(); const customData = {};
     currentFields.forEach(f => {
         if(f.name === "座標") customData[f.name] = map.options.crs === L.CRS.Simple ? `X:${Math.round(ll.lng)},Y:${Math.round(ll.lat)}` : `${ll.lat.toFixed(6)},${ll.lng.toFixed(6)}`;
@@ -660,8 +892,35 @@ async function loadPresetList() { const list = await db.presets.toArray(); docum
 function loadPresetToForm() { const id = document.getElementById('presetLoader').value; if(id) db.presets.get(id).then(p => { if(p){ currentFields = [...p.fields]; renderSetupFields(); } }); }
 function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); document.getElementById('mode-'+m).classList.add('active'); }
 function closeEdit() { document.getElementById('edit-panel').style.display='none'; selectedId=null; }
-async function deleteAnnot() { if(confirm("消去？")) { await db.annotations.update(selectedId, {isDeleted:1, updatedAt:Date.now()}); refreshAnnotations(); closeEdit(); } }
-async function undoLast() { const last = await db.annotations.where('projectId').equals(currentProjectId).and(a => a.isDeleted === 0).reverse().sortBy('updatedAt'); if(last[0]) { await db.annotations.update(last[0].id, {isDeleted: 1, updatedAt: Date.now()}); refreshAnnotations(); } }
+async function deleteAnnot() { if(confirm("消去？")) { lastUndoId = selectedId; await db.annotations.update(selectedId, {isDeleted:1, updatedAt:Date.now()}); refreshAnnotations(); closeEdit(); } }
+let lastUndoId = null;
+
+async function undoLast() {
+    const last = await db.annotations
+        .where('projectId')
+        .equals(currentProjectId)
+        .and(a => a.isDeleted === 0)
+        .reverse()
+        .sortBy('updatedAt');
+
+    if(last[0]) {
+        lastUndoId = last[0].id;
+        await db.annotations.update(lastUndoId, {isDeleted: 1, updatedAt: Date.now()});
+        refreshAnnotations();
+    }
+}
+
+async function redoLast() {
+    if(!lastUndoId) return alert("進める操作がありません");
+    const target = await db.annotations.get(lastUndoId);
+    if(!target || target.projectId !== currentProjectId || target.isDeleted === 0) {
+        lastUndoId = null;
+        return alert("進める操作がありません");
+    }
+    await db.annotations.update(lastUndoId, {isDeleted: 0, updatedAt: Date.now()});
+    lastUndoId = null;
+    refreshAnnotations();
+}
 
 
 async function loadImageElement(src) {
@@ -980,6 +1239,17 @@ if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
     if(hint) hint.style.display = 'block';
 }
 applyCompactDefaults();
+
+
+function toggleQuickNav(forceOpen = null) {
+    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
+    document.body.classList.toggle('quick-nav-open', shouldOpen);
+}
+
+function quickSwitchView(id) {
+    toggleQuickNav(false);
+    switchView(id);
+}
 
 // 簡易オフライン起動対応
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
