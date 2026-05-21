@@ -507,6 +507,16 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             }
         }
 
+    
+        /* 手書き中はスマホ/タブレットの画面移動・拡大縮小を抑止 */
+        body.drawing-mode #map,
+        body.drawing-mode .leaflet-container {
+            touch-action: none !important;
+            overscroll-behavior: contain !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+        }
+
     </style>
 </head>
 <body>
@@ -875,12 +885,52 @@ async function refreshAnnotations() {
 }
 function setupDrawing() {
     let d = false, pts = [], line = null;
-    map.on('mousedown touchstart', e => { if(currentMode !== 'draw') return; d = true; pts = [e.latlng]; line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map); map.dragging.disable(); });
-    map.on('mousemove touchmove', e => { if(d) { pts.push(e.latlng); line.setLatLngs(pts); } });
-    map.on('mouseup touchend', async () => {
-        if(!d) return; d = false; map.dragging.enable();
-        const a = { id: crypto.randomUUID(), projectId: currentProjectId, page: currentPage, type: 'line', points: pts.map(p=>[p.lat,p.lng]), color: currentColor, updatedAt: Date.now(), isDeleted: 0 };
-        await db.annotations.add(a); renderMarker(a); map.removeLayer(line);
+
+    const stopTouchMove = (ev) => {
+        if(currentMode === 'draw') ev.preventDefault();
+    };
+    const container = map.getContainer();
+    container.removeEventListener('touchmove', stopTouchMove);
+    container.addEventListener('touchmove', stopTouchMove, { passive: false });
+
+    map.on('mousedown touchstart', e => {
+        if(currentMode !== 'draw') return;
+        if(e.originalEvent) {
+            L.DomEvent.preventDefault(e.originalEvent);
+            L.DomEvent.stopPropagation(e.originalEvent);
+        }
+        d = true;
+        pts = [e.latlng];
+        line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map);
+        map.dragging?.disable();
+        map.touchZoom?.disable();
+    });
+
+    map.on('mousemove touchmove', e => {
+        if(!d || currentMode !== 'draw') return;
+        if(e.originalEvent) L.DomEvent.preventDefault(e.originalEvent);
+        pts.push(e.latlng);
+        line.setLatLngs(pts);
+    });
+
+    map.on('mouseup touchend', async e => {
+        if(!d) return;
+        if(e?.originalEvent) L.DomEvent.preventDefault(e.originalEvent);
+        d = false;
+
+        if(pts.length > 1) {
+            const a = { id: crypto.randomUUID(), projectId: currentProjectId, page: currentPage, type: 'line', points: pts.map(p=>[p.lat,p.lng]), color: currentColor, updatedAt: Date.now(), isDeleted: 0 };
+            await db.annotations.add(a);
+            renderMarker(a);
+        }
+        if(line) map.removeLayer(line);
+        line = null;
+
+        // 手書きモード中は画面移動ロックを維持する
+        if(currentMode !== 'draw') {
+            map.dragging?.enable();
+            map.touchZoom?.enable();
+        }
     });
 }
 function toggleSetupUI() { document.getElementById('pdfGroup').style.display = (document.getElementById('setupMode').value==='pdf') ? 'block' : 'none'; }
@@ -890,7 +940,32 @@ function removeField(i) { currentFields.splice(i,1); renderSetupFields(); }
 async function saveCurrentAsPreset() { const name = prompt("名"); if(name){ await db.presets.add({ id: crypto.randomUUID(), name, fields: [...currentFields] }); loadPresetList(); } }
 async function loadPresetList() { const list = await db.presets.toArray(); document.getElementById('presetLoader').innerHTML = '<option value="">--</option>' + list.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join(''); }
 function loadPresetToForm() { const id = document.getElementById('presetLoader').value; if(id) db.presets.get(id).then(p => { if(p){ currentFields = [...p.fields]; renderSetupFields(); } }); }
-function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); document.getElementById('mode-'+m).classList.add('active'); }
+function setMode(m) {
+    currentMode = m;
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('mode-'+m).classList.add('active');
+
+    const isDrawing = m === 'draw';
+    document.body.classList.toggle('drawing-mode', isDrawing);
+
+    if(map) {
+        if(isDrawing) {
+            map.dragging?.disable();
+            map.touchZoom?.disable();
+            map.doubleClickZoom?.disable();
+            map.scrollWheelZoom?.disable();
+            map.boxZoom?.disable();
+            if(map.getContainer()) map.getContainer().style.touchAction = 'none';
+        } else {
+            map.dragging?.enable();
+            map.touchZoom?.enable();
+            map.doubleClickZoom?.enable();
+            map.scrollWheelZoom?.enable();
+            map.boxZoom?.enable();
+            if(map.getContainer()) map.getContainer().style.touchAction = '';
+        }
+    }
+}
 function closeEdit() { document.getElementById('edit-panel').style.display='none'; selectedId=null; }
 async function deleteAnnot() { if(confirm("消去？")) { lastUndoId = selectedId; await db.annotations.update(selectedId, {isDeleted:1, updatedAt:Date.now()}); refreshAnnotations(); closeEdit(); } }
 let lastUndoId = null;
