@@ -10,161 +10,10 @@
     <link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;調査マップ Pro&quot;,&quot;short_name&quot;:&quot;調査Pro&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#f8fafc&quot;,&quot;theme_color&quot;:&quot;#2563eb&quot;}" />
     <title>現地調査 Pro - 吹き出し強化版</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-
-
-function clientPointToLatLng(clientX, clientY) {
-    const rect = map.getContainer().getBoundingClientRect();
-    const point = L.point(clientX - rect.left, clientY - rect.top);
-    return map.containerPointToLatLng(point);
-}
-
-function toggleQuickNav(forceOpen = null) {
-    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
-    document.body.classList.toggle('quick-nav-open', shouldOpen);
-}
-
-function quickSwitchView(id) {
-    toggleQuickNav(false);
-    switchView(id);
-}
-
-// 簡易オフライン起動対応
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => {
-        const swCode = `
-            const CACHE_NAME = 'survey-pro-mobile-v1';
-            self.addEventListener('install', event => {
-                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
-                    './',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
-                ])));
-            });
-            self.addEventListener('fetch', event => {
-                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-            });
-        `;
-        const blob = new Blob([swCode], {type: 'text/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-    });
-}
-
-</script>
-    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js">
-
-function toggleQuickNav(forceOpen = null) {
-    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
-    document.body.classList.toggle('quick-nav-open', shouldOpen);
-}
-
-function quickSwitchView(id) {
-    toggleQuickNav(false);
-    switchView(id);
-}
-
-// 簡易オフライン起動対応
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => {
-        const swCode = `
-            const CACHE_NAME = 'survey-pro-mobile-v1';
-            self.addEventListener('install', event => {
-                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
-                    './',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
-                ])));
-            });
-            self.addEventListener('fetch', event => {
-                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-            });
-        `;
-        const blob = new Blob([swCode], {type: 'text/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-    });
-}
-
-</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
-
-function toggleQuickNav(forceOpen = null) {
-    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
-    document.body.classList.toggle('quick-nav-open', shouldOpen);
-}
-
-function quickSwitchView(id) {
-    toggleQuickNav(false);
-    switchView(id);
-}
-
-// 簡易オフライン起動対応
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => {
-        const swCode = `
-            const CACHE_NAME = 'survey-pro-mobile-v1';
-            self.addEventListener('install', event => {
-                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
-                    './',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
-                ])));
-            });
-            self.addEventListener('fetch', event => {
-                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-            });
-        `;
-        const blob = new Blob([swCode], {type: 'text/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-    });
-}
-
-</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-
-function toggleQuickNav(forceOpen = null) {
-    const shouldOpen = forceOpen === null ? !document.body.classList.contains('quick-nav-open') : forceOpen;
-    document.body.classList.toggle('quick-nav-open', shouldOpen);
-}
-
-function quickSwitchView(id) {
-    toggleQuickNav(false);
-    switchView(id);
-}
-
-// 簡易オフライン起動対応
-if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => {
-        const swCode = `
-            const CACHE_NAME = 'survey-pro-mobile-v1';
-            self.addEventListener('install', event => {
-                event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll([
-                    './',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-                    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-                    'https://unpkg.com/dexie@3.2.4/dist/dexie.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js',
-                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
-                ])));
-            });
-            self.addEventListener('fetch', event => {
-                event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
-            });
-        `;
-        const blob = new Blob([swCode], {type: 'text/javascript'});
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-    });
-}
-
-</script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root { --sidebar-width: 260px; --primary: #2563eb; --bg: #f8fafc; --text: #1e293b; }
         body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
@@ -187,7 +36,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
         .color-picker { display: flex; gap: 6px; padding: 5px; justify-content: center; }
         .color-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
         .color-dot.active { border-color: #333; transform: scale(1.1); }
-        #map { height: 100%; width: 100%; background: #cbd5e1; }
+        #map { height: 100%; width: 100%; background: #cbd5e1; position: relative; }
         #edit-panel { position: absolute; bottom: 0; left: 0; right: 0; background: white; z-index: 4000; padding: 20px; border-top: 5px solid var(--primary); display: none; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); max-height: 80vh; overflow-y: auto; }
         .text-label { background:none!important; border:none!important; font-weight:bold; text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff; white-space: nowrap; }
         
@@ -515,27 +364,126 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
         }
 
     
-        /* 手書き中はスマホ/タブレットの画面移動・拡大縮小を抑止 */
-        body.drawing-mode #map,
-        body.drawing-mode .leaflet-container {
-            touch-action: none !important;
-            overscroll-behavior: contain !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
-        }
-
-    
-        #drawTouchLayer {
+        /* スマホ手書き対策：1本指で描画する専用キャンバス */
+        #drawTwoFingerCanvas {
             display: none;
             position: absolute;
             inset: 0;
-            z-index: 6500;
+            width: 100%;
+            height: 100%;
+            z-index: 4500;
             background: transparent;
-            touch-action: none;
+            touch-action: none !important;
+            pointer-events: none;
             cursor: crosshair;
         }
-        body.drawing-mode #drawTouchLayer {
+        body.drawing-mode #drawTwoFingerCanvas {
             display: block;
+            pointer-events: auto;
+        }
+        #drawTwoFingerGuide {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 12px;
+            transform: translateX(-50%);
+            z-index: 4600;
+            background: rgba(15, 23, 42, .88);
+            color: #fff;
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 12px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        body.drawing-mode #drawTwoFingerGuide {
+            display: block;
+        }
+
+        .edit-tools,
+        .page-nav,
+        #edit-panel,
+        .map-ui-toggle,
+        .quick-nav-toggle,
+        .quick-nav-panel,
+        .mobile-nav-toggle,
+        .sidebar,
+        .topbar {
+            position: relative;
+            z-index: 9000 !important;
+        }
+
+    
+        .review-row {
+            cursor: pointer;
+        }
+        .review-row:hover {
+            background: #eff6ff;
+        }
+        .review-jump-btn {
+            border: none;
+            background: #2563eb;
+            color: #fff;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .danger-btn {
+            background: #dc2626 !important;
+            color: #fff !important;
+        }
+
+    
+        .lock-badge {
+            display:inline-block;
+            margin-left:8px;
+            padding:3px 8px;
+            border-radius:999px;
+            background:#fee2e2;
+            color:#991b1b;
+            font-size:12px;
+            font-weight:bold;
+        }
+        .preview-actions {
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin:14px 0;
+            padding:12px;
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:10px;
+        }
+        .preview-actions button {
+            border:none;
+            border-radius:8px;
+            padding:10px 14px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+        .preview-print-btn { background:#2563eb; color:#fff; }
+        .preview-back-btn { background:#e2e8f0; color:#0f172a; }
+        .lock-btn { background:#f97316 !important; color:#fff !important; }
+        .unlock-btn { background:#64748b !important; color:#fff !important; }
+        .selected-review-row {
+            background:#dbeafe !important;
+            outline:2px solid #2563eb;
+        }
+        .selected-pulse-marker {
+            width:46px;
+            height:46px;
+            border:4px solid #2563eb;
+            border-radius:999px;
+            background:rgba(37,99,235,.12);
+            box-shadow:0 0 0 6px rgba(37,99,235,.18), 0 0 18px rgba(37,99,235,.65);
+            transform:translate(-23px,-23px);
+            animation:selectedPulse 1s ease-in-out infinite alternate;
+            pointer-events:none;
+        }
+        @keyframes selectedPulse {
+            from { transform:translate(-23px,-23px) scale(.86); opacity:.75; }
+            to { transform:translate(-23px,-23px) scale(1.16); opacity:1; }
         }
 
     </style>
@@ -628,7 +576,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
                 <button class="tool-btn" onclick="undoLast()">↩️ 戻る</button>
                 <button class="tool-btn" onclick="redoLast()">↪️ 進む</button>
             </div>
-            <div id="map"></div><div id="drawTouchLayer"></div>
+            <div id="map"></div>
             <div id="edit-panel"><div id="dynamicInputsArea"></div><button class="primary" style="width:100%; margin-top:20px;" onclick="saveAnnot()">内容を保存して閉じる</button><button onclick="deleteAnnot()" style="width:100%; border:none; color:red; background:none; margin-top:10px;">削除</button></div>
         </section>
 
@@ -636,7 +584,9 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
         <section class="view" id="export">
             <h1>出力</h1>
             <div class="form-panel">
-                <button class="primary" onclick="preparePrint()">報告書(PDF)を作成</button>
+                <button class="primary" onclick="prepareReportPreview()">報告書プレビューを確認</button>
+                <button class="primary preview-print-btn" style="margin-top:15px;" onclick="preparePrint()">プレビュー確認後にPDF出力</button>
+                <button id="lockProjectBtn" class="primary lock-btn" style="margin-top:15px;" onclick="toggleProjectLock()">🔒 現場をロック</button>
                 <button class="primary" style="margin-top:15px; background:#059669;" onclick="exportGeoJSON()">GIS(GeoJSON)保存</button>
                 <button class="primary" style="margin-top:15px; background:#64748b;" onclick="exportCSV()">CSV保存</button>
             </div>
@@ -652,6 +602,9 @@ let currentProjectId = null, currentMode = 'select', currentColor = '#ff0000', m
 let markers = {}, selectedId = null, currentFields = [{name:"写真番号", photo:false}, {name:"メモ", photo:false}, {name:"座標", photo:false}], currentPdf = null, currentPage = 1, currentRotation = 0;
 const tempFieldPhotos = {};
 let latestMapCapture = null;
+let latestDrawingCapture = null;
+let selectedHighlightLayer = null;
+let selectedReviewAnnotationId = null;
 
 const esc = (s) => s ? s.toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : "";
 const blobToBase64 = (blob) => new Promise((res) => { if(!blob){res(null);return;} const r = new FileReader(); r.onloadend = () => res(r.result); r.readAsDataURL(blob); });
@@ -707,7 +660,8 @@ function switchView(id) {
     document.getElementById('viewTitle').textContent = step ? step.textContent.replace(/[0-9]/g, '') : "一覧";
 
     if(id==='projects') loadProjects();
-    if(id==='review' || id==='export') loadReview();
+    if(id==='review') { loadReview(); updateLockUI(); }
+    if(id==='export') { updateLockUI(); }
     if(id==='editor' && map) { setTimeout(() => { map.invalidateSize(); }, 300); }
     if(isCompactScreen()) {
         document.body.classList.add('sidebar-hidden');
@@ -728,8 +682,9 @@ async function startSetup() {
 }
 
 async function selectProject(id) {
+    clearSelectedHighlight();
     const p = await db.projects.get(id); currentProjectId = id; currentFields = p.fields; currentRotation = p.rotation || 0;
-    document.getElementById('topContext').textContent = `${p.name} / ${p.author||'--'}`;
+    document.getElementById('topContext').innerHTML = `${esc(p.name)} / ${esc(p.author||'--')}${p.locked ? '<span class="lock-badge">ロック中</span>' : ''}`;
     switchView('editor'); 
     currentPdf = null;
     currentPage = 1;
@@ -812,6 +767,95 @@ function rotateView() {
     if(currentPdf) loadPdfPage(currentPage); else selectProject(currentProjectId);
 }
 
+
+async function getCurrentProject() {
+    return currentProjectId ? await db.projects.get(currentProjectId) : null;
+}
+
+async function isCurrentProjectLocked(showMessage = true) {
+    const p = await getCurrentProject();
+    if(p?.locked) {
+        if(showMessage) alert("この現場はロック中です。編集する場合は、出力・共有画面でロック解除してください。");
+        return true;
+    }
+    return false;
+}
+
+async function toggleProjectLock() {
+    if(!currentProjectId) return alert("現場を選択してください");
+    const p = await db.projects.get(currentProjectId);
+    const next = !p?.locked;
+    await db.projects.update(currentProjectId, { locked: next, lockedAt: next ? Date.now() : null });
+    await updateLockUI();
+    alert(next ? "現場をロックしました。編集・削除を防止します。" : "現場ロックを解除しました。");
+}
+
+async function updateLockUI() {
+    const p = await getCurrentProject();
+    const btn = document.getElementById('lockProjectBtn');
+    if(btn) {
+        if(p?.locked) {
+            btn.textContent = "🔓 ロック解除";
+            btn.classList.remove('lock-btn');
+            btn.classList.add('unlock-btn');
+        } else {
+            btn.textContent = "🔒 現場をロック";
+            btn.classList.remove('unlock-btn');
+            btn.classList.add('lock-btn');
+        }
+    }
+    const ctx = document.getElementById('topContext');
+    if(ctx && p) {
+        ctx.innerHTML = `${esc(p.name)} / ${esc(p.author || '--')}${p.locked ? '<span class="lock-badge">ロック中</span>' : ''}`;
+    }
+}
+
+function clearSelectedHighlight() {
+    if(selectedHighlightLayer && map) {
+        try { map.removeLayer(selectedHighlightLayer); } catch(e) {}
+    }
+    selectedHighlightLayer = null;
+}
+
+function highlightSelectedAnnotation(a) {
+    clearSelectedHighlight();
+    if(!map || !a) return;
+
+    if(a.type === 'line' && Array.isArray(a.points) && a.points.length > 1) {
+        selectedHighlightLayer = L.polyline(a.points, {
+            color: '#2563eb',
+            weight: 12,
+            opacity: 0.42,
+            dashArray: '14,10',
+            interactive: false
+        }).addTo(map);
+        try { map.fitBounds(selectedHighlightLayer.getBounds(), { padding:[60,60], animate:true }); } catch(e) {}
+        setTimeout(clearSelectedHighlight, 5000);
+        return;
+    }
+
+    if(typeof a.lat === 'number' && typeof a.lng === 'number') {
+        selectedHighlightLayer = L.marker([a.lat, a.lng], {
+            interactive:false,
+            icon:L.divIcon({
+                className:'',
+                iconSize:[1,1],
+                iconAnchor:[0,0],
+                html:'<div class="selected-pulse-marker"></div>'
+            })
+        }).addTo(map);
+        try { map.panTo([a.lat, a.lng]); } catch(e) {}
+        setTimeout(clearSelectedHighlight, 5000);
+    }
+}
+
+function markReviewRowSelected(id) {
+    selectedReviewAnnotationId = id;
+    document.querySelectorAll('.review-row').forEach(row => {
+        row.classList.toggle('selected-review-row', row.dataset.id === id);
+    });
+}
+
 /** 4. Annotations Logic **/
 async function addAnnot(ll) {
     lastUndoId = null;
@@ -827,10 +871,12 @@ async function addAnnot(ll) {
 function renderMarker(a) {
     if(a.page !== currentPage && map.options.crs === L.CRS.Simple) return;
     let l;
-    // ★吹き出しの内容（1行目：写真番号, 2行目：コメント）
-    const f1 = esc(a.customData?.[currentFields[0].name]);
-    const f2 = esc(a.customData?.[currentFields[1].name]);
-    const balloonContent = `<b>${f1}</b>${f2 ? `<br><span class="zoom-hide">${f2}</span>` : ''}`;
+    // ★吹き出しの内容（写真番号が空でもメモだけ表示）
+    const f1 = esc(a.customData?.[currentFields[0].name] || '');
+    const f2 = esc(a.customData?.[currentFields[1].name] || '');
+    const balloonContent = f1
+        ? `<b>${f1}</b>${f2 ? `<br><span class="zoom-hide">${f2}</span>` : ''}`
+        : (f2 ? `<span class="zoom-hide">${f2}</span>` : '');
 
     if(a.type==='pin') {
         l = L.marker([a.lat, a.lng], { draggable: true, icon: L.divIcon({ className:'custom-pin', html:`<div style="background:${a.color}; width:24px; height:24px; border-radius:50%; border:3px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.4);"></div>` }) });
@@ -839,13 +885,15 @@ function renderMarker(a) {
     } else if(a.type==='text') {
         l = L.marker([a.lat, a.lng], { draggable: true, icon: L.divIcon({ className:`text-label`, html:`<span style="color:${a.color}">${esc(a.text)}</span>` }) });
     } else if(a.type==='line') {
-        l = L.polyline(a.points, {color: a.color, weight:5});
+        l = L.polyline(a.points, {color: a.color, weight:5, className:'report-line-layer'});
     }
 
     if(l) {
-        if(a.type !== 'line') l.bindTooltip(balloonContent, {permanent:true, direction:'top'});
+        if(a.type !== 'line' && balloonContent) l.bindTooltip(balloonContent, {permanent:true, direction:'top'});
         l.addTo(map).on('click', e => { L.DomEvent.stopPropagation(e); openEdit(a.id); });
         l.on('dragend', async e => {
+            latestDrawingCapture = null;
+            if(await isCurrentProjectLocked()) { refreshAnnotations(); return; }
             const p = e.target.getLatLng(); const up = {...a.customData};
             if(up["座標"]) up["座標"] = map.options.crs === L.CRS.Simple ? `X:${Math.round(p.lng)},Y:${Math.round(p.lat)}` : `${p.lat.toFixed(6)},${p.lng.toFixed(6)}`;
             await db.annotations.update(a.id, { lat: p.lat, lng: p.lng, customData: up, updatedAt: Date.now() });
@@ -897,7 +945,41 @@ async function saveAnnot() {
 /** 6. Utilities **/
 async function loadProjects() {
     const list = await db.projects.toArray();
-    document.getElementById('projectGrid').innerHTML = list.map(p => `<div class="project-card" style="background:white; padding:15px; border-radius:10px; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><div onclick="selectProject('${p.id}')"><strong>${esc(p.name)}</strong><br><small>${esc(p.author || '--')}</small></div><button onclick="event.stopPropagation(); exportProjectFile('${p.id}', true)" style="margin-top:10px; font-size:10px; border:none; background:#eee; padding:5px 8px; border-radius:4px;">📤 共有パッケージ出力</button></div>`).join('');
+    document.getElementById('projectGrid').innerHTML = list.map(p => `
+        <div class="project-card" style="background:white; padding:15px; border-radius:10px; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <div onclick="selectProject('${p.id}')">
+                <strong>${esc(p.name)}</strong><br>
+                <small>${esc(p.author || '--')}</small>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+                <button onclick="event.stopPropagation(); exportProjectFile('${p.id}', true)" style="font-size:10px; border:none; background:#eee; padding:5px 8px; border-radius:4px;">📤 共有パッケージ出力</button>
+                <button onclick="event.stopPropagation(); deleteProject('${p.id}')" style="font-size:10px; border:none; background:#fee2e2; color:#b91c1c; padding:5px 8px; border-radius:4px;">🗑 現場削除</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function deleteProject(pid) {
+    const p = await db.projects.get(pid);
+    if(p?.locked) return alert('この現場はロック中のため削除できません。先にロック解除してください。');
+    if(!p) return;
+    if(!confirm(`現場「${p.name}」を削除します。\nこの現場のピン・写真・入力内容も削除されます。よろしいですか？`)) return;
+
+    const anns = await db.annotations.where('projectId').equals(pid).toArray();
+    if(anns.length) await db.annotations.bulkDelete(anns.map(a => a.id));
+    await db.projects.delete(pid);
+
+    if(currentProjectId === pid) {
+        currentProjectId = null;
+        currentPdf = null;
+        currentPage = 1;
+        closeEdit();
+        if(map) { map.remove(); map = null; }
+        document.getElementById('topContext').textContent = '';
+        switchView('projects');
+    } else {
+        loadProjects();
+    }
 }
 async function refreshAnnotations() {
     Object.values(markers).forEach(m => map.removeLayer(m.layer)); markers = {};
@@ -905,46 +987,105 @@ async function refreshAnnotations() {
     saved.forEach(renderMarker);
 }
 function setupDrawing() {
-    let d = false, pts = [], line = null;
-    const layer = document.getElementById('drawTouchLayer');
+    let canvas = document.getElementById('drawTwoFingerCanvas');
+    let guide = document.getElementById('drawTwoFingerGuide');
 
-    const start = (ev) => {
+    if(!canvas) {
+        canvas = document.createElement('canvas');
+        canvas.id = 'drawTwoFingerCanvas';
+        map.getContainer().appendChild(canvas);
+    }
+    if(!guide) {
+        guide = document.createElement('div');
+        guide.id = 'drawTwoFingerGuide';
+        guide.textContent = '手書き：1本指で書けます';
+        map.getContainer().appendChild(guide);
+    }
+
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let pts = [];
+    let activePointerId = null;
+
+    function resizeCanvas() {
+        const rect = map.getContainer().getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    }
+
+    function pointFromEvent(ev) {
+        const e = ev.touches ? ev.touches[0] : (ev.changedTouches ? ev.changedTouches[0] : ev);
+        if(!e) return null;
+        const rect = canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    function pixelToLatLng(p) {
+        return map.containerPointToLatLng(L.point(p.x, p.y));
+    }
+
+    async function beginStroke(ev) {
         if(currentMode !== 'draw') return;
+        if(await isCurrentProjectLocked()) return;
+        const p = pointFromEvent(ev);
+        if(!p) return;
+
         ev.preventDefault();
         ev.stopPropagation();
-        const touch = ev.touches ? ev.touches[0] : ev;
-        if(!touch) return;
 
-        d = true;
-        pts = [clientPointToLatLng(touch.clientX, touch.clientY)];
-        line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map);
+        resizeCanvas();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = currentColor || '#ef4444';
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
 
-        map.dragging?.disable();
-        map.touchZoom?.disable();
-        map.doubleClickZoom?.disable();
+        pts = [pixelToLatLng(p)];
+        drawing = true;
+        activePointerId = ev.pointerId ?? null;
 
-        if(ev.pointerId && layer.setPointerCapture) {
-            try { layer.setPointerCapture(ev.pointerId); } catch(e) {}
+        if(map) {
+            map.dragging?.disable();
+            map.touchZoom?.disable();
+            map.doubleClickZoom?.disable();
+            map.scrollWheelZoom?.disable();
         }
-    };
 
-    const move = (ev) => {
-        if(!d || currentMode !== 'draw') return;
+        if(ev.pointerId != null && canvas.setPointerCapture) {
+            try { canvas.setPointerCapture(ev.pointerId); } catch(e) {}
+        }
+    }
+
+    function moveStroke(ev) {
+        if(currentMode !== 'draw' || !drawing) return;
+        if(activePointerId != null && ev.pointerId != null && ev.pointerId !== activePointerId) return;
+
+        const p = pointFromEvent(ev);
+        if(!p) return;
+
         ev.preventDefault();
         ev.stopPropagation();
-        const touch = ev.touches ? ev.touches[0] : ev;
-        if(!touch) return;
 
-        const p = clientPointToLatLng(touch.clientX, touch.clientY);
-        pts.push(p);
-        if(line) line.setLatLngs(pts);
-    };
+        pts.push(pixelToLatLng(p));
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+    }
 
-    const end = async (ev) => {
-        if(!d) return;
-        ev.preventDefault();
-        ev.stopPropagation();
-        d = false;
+    async function endStroke(ev) {
+        if(!drawing) return;
+        if(activePointerId != null && ev.pointerId != null && ev.pointerId !== activePointerId) return;
+
+        ev.preventDefault?.();
+        ev.stopPropagation?.();
+
+        drawing = false;
+        activePointerId = null;
 
         if(pts.length > 1) {
             const a = {
@@ -952,7 +1093,7 @@ function setupDrawing() {
                 projectId: currentProjectId,
                 page: currentPage,
                 type: 'line',
-                points: pts.map(p=>[p.lat,p.lng]),
+                points: pts.map(p => [p.lat, p.lng]),
                 color: currentColor,
                 updatedAt: Date.now(),
                 isDeleted: 0
@@ -961,44 +1102,28 @@ function setupDrawing() {
             renderMarker(a);
         }
 
-        if(line) map.removeLayer(line);
-        line = null;
-
-        // 手書きモード中は画面移動ロックを維持する
-        if(currentMode !== 'draw') {
-            map.dragging?.enable();
-            map.touchZoom?.enable();
-            map.doubleClickZoom?.enable();
-        }
-    };
-
-    if(layer) {
-        layer.addEventListener('pointerdown', start, { passive: false });
-        layer.addEventListener('pointermove', move, { passive: false });
-        layer.addEventListener('pointerup', end, { passive: false });
-        layer.addEventListener('pointercancel', end, { passive: false });
-
-        // 古いiOS対策
-        layer.addEventListener('touchstart', start, { passive: false });
-        layer.addEventListener('touchmove', move, { passive: false });
-        layer.addEventListener('touchend', end, { passive: false });
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pts = [];
     }
 
-    // PCでは従来どおり地図上でも描けるように残す
-    map.on('mousedown', e => {
-        if(currentMode !== 'draw') return;
-        d = true;
-        pts = [e.latlng];
-        line = L.polyline(pts, {color: currentColor, weight:5}).addTo(map);
-        map.dragging?.disable();
-    });
-    map.on('mousemove', e => {
-        if(d && currentMode === 'draw') {
-            pts.push(e.latlng);
-            if(line) line.setLatLngs(pts);
-        }
-    });
-    map.on('mouseup', end);
+    canvas.onpointerdown = beginStroke;
+    canvas.onpointermove = moveStroke;
+    canvas.onpointerup = endStroke;
+    canvas.onpointercancel = endStroke;
+
+    canvas.ontouchstart = beginStroke;
+    canvas.ontouchmove = moveStroke;
+    canvas.ontouchend = endStroke;
+    canvas.ontouchcancel = endStroke;
+
+    canvas.onmousedown = beginStroke;
+    canvas.onmousemove = moveStroke;
+    canvas.onmouseup = endStroke;
+    canvas.onmouseleave = endStroke;
+
+    window.addEventListener('resize', resizeCanvas);
+    map.on('resize zoomend moveend', resizeCanvas);
+    setTimeout(resizeCanvas, 300);
 }
 function toggleSetupUI() { document.getElementById('pdfGroup').style.display = (document.getElementById('setupMode').value==='pdf') ? 'block' : 'none'; }
 function renderSetupFields() { document.getElementById('customFieldList').innerHTML = currentFields.map((f, i) => `<span class="badge">${esc(f.name)}${f.photo?'📷':''}${i > 2 ? `<span onclick="removeField(${i})" style="cursor:pointer;font-weight:bold;margin-left:5px;">×</span>` : ''}</span>`).join(''); }
@@ -1010,10 +1135,22 @@ function loadPresetToForm() { const id = document.getElementById('presetLoader')
 function setMode(m) {
     currentMode = m;
     document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('mode-'+m).classList.add('active');
+    const btn = document.getElementById('mode-' + m);
+    if(btn) btn.classList.add('active');
 
     const isDrawing = m === 'draw';
     document.body.classList.toggle('drawing-mode', isDrawing);
+
+    const c = document.getElementById('drawTwoFingerCanvas');
+    const g = document.getElementById('drawTwoFingerGuide');
+    if(c) {
+        c.style.pointerEvents = isDrawing ? 'auto' : 'none';
+        if(!isDrawing) {
+            const ctx = c.getContext && c.getContext('2d');
+            if(ctx) ctx.clearRect(0, 0, c.width || 0, c.height || 0);
+        }
+    }
+    if(g) g.style.display = isDrawing ? 'block' : 'none';
 
     if(map) {
         if(isDrawing) {
@@ -1038,6 +1175,7 @@ async function deleteAnnot() { if(confirm("消去？")) { lastUndoId = selectedI
 let lastUndoId = null;
 
 async function undoLast() {
+    if(await isCurrentProjectLocked()) return;
     const last = await db.annotations
         .where('projectId')
         .equals(currentProjectId)
@@ -1053,6 +1191,7 @@ async function undoLast() {
 }
 
 async function redoLast() {
+    if(await isCurrentProjectLocked()) return;
     if(!lastUndoId) return alert("進める操作がありません");
     const target = await db.annotations.get(lastUndoId);
     if(!target || target.projectId !== currentProjectId || target.isDeleted === 0) {
@@ -1092,6 +1231,222 @@ function rotateCanvasDataUrl(srcCanvasOrImg, rotation) {
     return { url: canvas.toDataURL('image/png'), width: canvas.width, height: canvas.height };
 }
 
+
+
+function showViewForCapture(id) {
+    const views = ['projects', 'setup', 'editor', 'review', 'export'];
+    views.forEach(v => {
+        const el = document.getElementById(v);
+        if(el) el.classList.toggle('is-visible', v === id);
+        const st = document.getElementById('step-' + v);
+        if(st) st.classList.toggle('is-active', v === id);
+    });
+
+    const ws = document.getElementById('mainWorkspace');
+    if(ws) {
+        if(id === 'editor') {
+            ws.classList.add('is-editor-active');
+            document.body.classList.add('editor-view');
+        } else {
+            ws.classList.remove('is-editor-active');
+            document.body.classList.remove('editor-view');
+        }
+    }
+}
+
+async function captureCurrentDrawingView(pageNum = currentPage) {
+    if(!map) return null;
+    const restoreView = document.querySelector('.view.is-visible')?.id || 'editor';
+    const restorePage = currentPage;
+
+    showViewForCapture('editor');
+    await wait(250);
+    map.invalidateSize();
+    await wait(250);
+
+    if(currentPdf && pageNum !== currentPage) {
+        await loadPdfPage(pageNum);
+        await wait(700);
+    }
+
+    if(window.bg?.getBounds) {
+        try {
+            map.fitBounds(window.bg.getBounds(), { animate:false, padding:[6,6] });
+            await wait(350);
+            map.invalidateSize();
+        } catch(e) {}
+    }
+
+    const mapEl = document.getElementById('map');
+    const mapRect = mapEl.getBoundingClientRect();
+
+    const bgImg = window.bg?._image || null;
+    const bgRect = bgImg ? bgImg.getBoundingClientRect() : mapRect;
+
+    // 詳細画像は、地図画面全体ではなく「図面が写っている範囲」を切り出して大きく表示する
+    const pad = 18;
+    const cropLeft = Math.max(0, bgRect.left - mapRect.left - pad);
+    const cropTop = Math.max(0, bgRect.top - mapRect.top - pad);
+    const cropRight = Math.min(mapRect.width, bgRect.right - mapRect.left + pad);
+    const cropBottom = Math.min(mapRect.height, bgRect.bottom - mapRect.top + pad);
+    const cropW = Math.max(1, cropRight - cropLeft);
+    const cropH = Math.max(1, cropBottom - cropTop);
+
+    const scale = 2;
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(cropW * scale));
+    canvas.height = Math.max(1, Math.round(cropH * scale));
+    const ctx = canvas.getContext('2d');
+    ctx.scale(scale, scale);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, cropW, cropH);
+
+    // 背景図面を、切り出し範囲に合わせて描画する
+    try {
+        if(bgImg) {
+            const r = bgImg.getBoundingClientRect();
+            ctx.drawImage(
+                bgImg,
+                (r.left - mapRect.left) - cropLeft,
+                (r.top - mapRect.top) - cropTop,
+                r.width,
+                r.height
+            );
+        }
+    } catch(e) {
+        console.error('background draw failed', e);
+    }
+
+    const saved = await db.annotations
+        .where('projectId')
+        .equals(currentProjectId)
+        .and(a => a.isDeleted === 0 && (a.page || 1) === pageNum)
+        .toArray();
+
+    function pt(lat, lng) {
+        const p = map.latLngToContainerPoint([lat, lng]);
+        return L.point(p.x - cropLeft, p.y - cropTop);
+    }
+
+    function drawPin(a) {
+        const p = pt(a.lat, a.lng);
+        ctx.save();
+        ctx.fillStyle = a.color || '#ff0000';
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(0,0,0,.35)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawArrow(a) {
+        const p = pt(a.lat, a.lng);
+        const angle = (Number(a.angle || 0) - 90) * Math.PI / 180;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(angle);
+        ctx.fillStyle = a.color || '#ff0000';
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(14, 0);
+        ctx.lineTo(-10, -9);
+        ctx.lineTo(-5, 0);
+        ctx.lineTo(-10, 9);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawText(a) {
+        const p = pt(a.lat, a.lng);
+        ctx.save();
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = 'rgba(255,255,255,.9)';
+        ctx.fillStyle = a.color || '#ff0000';
+        const text = a.text || 'テキスト';
+        ctx.strokeText(text, p.x, p.y);
+        ctx.fillText(text, p.x, p.y);
+        ctx.restore();
+    }
+
+    function drawLine(a) {
+        if(!Array.isArray(a.points) || a.points.length < 2) return;
+        ctx.save();
+        ctx.strokeStyle = a.color || '#ff0000';
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        a.points.forEach((p0, idx) => {
+            const p = pt(p0[0], p0[1]);
+            if(idx === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
+        });
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawBalloon(a) {
+        if(a.type === 'line') return;
+        const f1 = esc(a.customData?.[currentFields[0]?.name] || '');
+        const f2 = esc(a.customData?.[currentFields[1]?.name] || '');
+        const text = f1 ? (f2 ? `${f1} / ${f2}` : f1) : f2;
+        if(!text) return;
+        const p = pt(a.lat, a.lng);
+        ctx.save();
+        ctx.font = '12px sans-serif';
+        const w = ctx.measureText(text).width + 10;
+        const x = p.x + 12;
+        const y = p.y - 26;
+        ctx.fillStyle = 'rgba(255,255,255,.92)';
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 1;
+        ctx.fillRect(x, y, w, 20);
+        ctx.strokeRect(x, y, w, 20);
+        ctx.fillStyle = '#111';
+        ctx.fillText(text, x + 5, y + 14);
+        ctx.restore();
+    }
+
+    // 線を先に、点物を後に描く
+    saved.filter(a => a.type === 'line').forEach(drawLine);
+    saved.filter(a => a.type !== 'line').forEach(a => {
+        if(a.type === 'pin') drawPin(a);
+        else if(a.type === 'arrow') drawArrow(a);
+        else if(a.type === 'text') drawText(a);
+        else drawPin(a);
+        drawBalloon(a);
+    });
+
+    const result = {
+        url: canvas.toDataURL('image/png'),
+        width: canvas.width,
+        height: canvas.height,
+        page: pageNum,
+        zoom: map.getZoom()
+    };
+
+    latestDrawingCapture = result;
+
+    if(currentPdf && restorePage !== currentPage) {
+        await loadPdfPage(restorePage);
+        await wait(300);
+    }
+
+    showViewForCapture(restoreView);
+    if(restoreView === 'editor') setTimeout(() => map.invalidateSize(), 100);
+    return result;
+}
+
 function getReportSymbolSize(w, h) {
     const longSide = Math.max(Number(w || 0), Number(h || 0));
     if(longSide >= 6000) return { pin: 7, arrow: 12, line: 2, font: 7, offset: 8 };
@@ -1124,12 +1479,27 @@ function reportMarkerHtml(a, w, h) {
         icon = `<svg width="${Math.max(8, size.pin)}" height="${Math.max(8, size.pin)}" viewBox="0 0 20 20" style="display:block; overflow:visible; -webkit-print-color-adjust:exact; print-color-adjust:exact;"><circle cx="10" cy="10" r="${Math.max(3, (size.pin - 2) / 2)}" fill="${color}" stroke="#ffffff" stroke-width="1.5" /></svg>`;
     }
 
-    const balloon = (label || memo) ? `<div style="position:absolute;left:${size.offset}px;top:-${size.offset + 4}px;background:white;border:1px solid #666;border-radius:4px;padding:1px 4px;font-size:${size.font}px;line-height:1.15;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25);-webkit-print-color-adjust:exact; print-color-adjust:exact;"><b>${label}</b>${memo ? `<br>${memo}` : ''}</div>` : '';
+    const balloonText = label
+        ? `<b>${label}</b>${memo ? `<br>${memo}` : ''}`
+        : (memo ? `${memo}` : '');
+    const balloon = balloonText ? `<div style="position:absolute;left:${size.offset}px;top:-${size.offset + 4}px;background:white;border:1px solid #666;border-radius:4px;padding:1px 4px;font-size:${size.font}px;line-height:1.15;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25);-webkit-print-color-adjust:exact; print-color-adjust:exact;">${balloonText}</div>` : '';
     return `<div style="position:absolute;left:${x}%;top:${y}%;transform:translate(-50%,-50%);z-index:3;">${icon}${balloon}</div>`;
+}
+
+
+function buildCapturedLineOverlayHtml(capture) {
+    if(!capture?.lines?.length) return '';
+    const svgs = capture.lines.map(line => {
+        const pts = line.points.map(p => `${p.x},${p.y}`).join(' ');
+        const color = esc(line.color || '#ff0000');
+        return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />`;
+    }).join('');
+    return `<svg style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:4; -webkit-print-color-adjust:exact; print-color-adjust:exact;" viewBox="0 0 1000 1000" preserveAspectRatio="none">${svgs}</svg>`;
 }
 
 async function buildReportFigure(p, list) {
     if(!p) return '<div style="margin:12px 0; padding:10px; border:1px solid #ccc;">現場情報なし</div>';
+
     if(p.mode === 'gsi') {
         const capture = latestMapCapture || await captureCurrentMapView();
         if(!capture) return '<div style="margin:12px 0; padding:10px; border:1px solid #ccc;">地図画像を取得できませんでした</div>';
@@ -1143,37 +1513,28 @@ async function buildReportFigure(p, list) {
             '<img src="' + capture.url + '" style="display:block;width:100%;height:auto;">' +
             '</div></div>';
     }
-    if(p.mode !== 'pdf') return '<div style="margin:12px 0; padding:10px; border:1px solid #ccc;">図面：出力対象外</div>';
-    const rotation = p.rotation || 0;
-    let pages = [...new Set(list.map(a => a.page || 1))].sort((a,b) => a-b);
-    if(pages.length === 0) pages = [currentPage || 1];
-    let html = '<h3 style="margin-top:18px;">図面</h3>';
 
-    if(p.pdfData) {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-        const pdf = await pdfjsLib.getDocument({data: p.pdfData.slice ? p.pdfData.slice(0) : p.pdfData}).promise;
-        pages = pages.filter(pg => pg >= 1 && pg <= pdf.numPages);
+    if(p.mode === 'pdf') {
+        let pages = [...new Set(list.map(a => a.page || 1))].sort((a,b) => a-b);
+        if(pages.length === 0) pages = [currentPage || 1];
+
+        let html = '<h3 style="margin-top:18px;">図面</h3>';
         for(const pg of pages) {
-            const page = await pdf.getPage(pg);
-            const vp = page.getViewport({ scale: 2.0 });
-            const cvs = document.createElement('canvas');
-            cvs.width = vp.width;
-            cvs.height = vp.height;
-            await page.render({ canvasContext: cvs.getContext('2d'), viewport: vp }).promise;
-            const rotated = rotateCanvasDataUrl(cvs, rotation);
-            const anns = list.filter(a => (a.page || 1) === pg).map(a => reportMarkerHtml(a, rotated.width, rotated.height)).join('');
-            html += `<div style="page-break-inside:avoid; margin:10px 0 18px;"><div style="font-weight:bold;margin-bottom:5px;">図面ページ ${pg}</div><div style="position:relative; width:100%; border:1px solid #333; background:#eee;"><img src="${rotated.url}" style="display:block;width:100%;height:auto;">${anns}</div></div>`;
+            const capture = await captureCurrentDrawingView(pg);
+            if(!capture?.url) {
+                html += `<div style="margin:12px 0; padding:10px; border:1px solid #f59e0b; background:#fffbeb;">図面ページ ${pg} の画像を取得できませんでした。</div>`;
+                continue;
+            }
+            html += '<div style="page-break-inside:avoid; margin:10px 0 18px;">' +
+                '<div style="font-weight:bold;margin-bottom:5px;">図面ページ ' + esc(pg) + '（編集画面と同じ位置関係で出力）</div>' +
+                '<div style="position:relative; width:100%; max-width:none; border:1px solid #333; background:#eee;">' +
+                '<img src="' + capture.url + '" style="display:block;width:100%;height:auto;">' +
+                '</div></div>';
         }
-    } else if(p.bgBlob) {
-        const src = await blobToBase64(p.bgBlob);
-        const img = await loadImageElement(src);
-        const rotated = rotateCanvasDataUrl(img, rotation);
-        const anns = list.filter(a => (a.page || 1) === 1).map(a => reportMarkerHtml(a, rotated.width, rotated.height)).join('');
-        html += `<div style="page-break-inside:avoid; margin:10px 0 18px;"><div style="font-weight:bold;margin-bottom:5px;">図面ページ 1</div><div style="position:relative; width:100%; border:1px solid #333; background:#eee;"><img src="${rotated.url}" style="display:block;width:100%;height:auto;">${anns}</div></div>`;
-    } else {
-        html += '<div style="margin:12px 0; padding:10px; border:1px solid #ccc;">図面ファイルなし</div>';
+        return html;
     }
-    return html;
+
+    return '<div style="margin:12px 0; padding:10px; border:1px solid #ccc;">図面：出力対象外</div>';
 }
 
 async function loadReview() {
@@ -1183,22 +1544,38 @@ async function loadReview() {
     }
     const p = await db.projects.get(currentProjectId);
     const list = await db.annotations.where('projectId').equals(currentProjectId).and(a => a.isDeleted === 0).toArray();
-    const figureHtml = await buildReportFigure(p, list);
-    const rows = list.map(a => `
-        <tr>
+    let figureHtml = '';
+    try {
+        figureHtml = await buildReportFigure(p, list);
+    } catch(e) {
+        console.error(e);
+        figureHtml = '<div style="margin:12px 0; padding:10px; border:1px solid #f59e0b; background:#fffbeb;">図面プレビューの作成に失敗しました。編集画面を一度開いてから再度お試しください。</div>';
+    }
+    const rows = list.map((a, idx) => `
+        <tr class="review-row" data-id="${a.id}" onclick="selectAnnotationFromReview('${a.id}')">
+            <td><button class="review-jump-btn" onclick="event.stopPropagation(); selectAnnotationFromReview('${a.id}')">表示</button></td>
+            <td>${idx + 1}</td>
             <td>${esc(a.type || '')}</td>
             <td>${esc(a.page || '')}</td>
             ${currentFields.map(f => `<td>${esc(a.customData?.[f.name] || '')}${f.photo && a.fieldPhotos?.[f.name] ? ' 📷' : ''}</td>`).join('')}
         </tr>
     `).join('');
+    const previewActions = `
+        <div class="preview-actions">
+            <button class="preview-back-btn" onclick="switchView('export')">出力画面に戻る</button>
+            <button class="preview-print-btn" onclick="window.print()">この内容でPDF出力</button>
+            <button class="${p?.locked ? 'unlock-btn' : 'lock-btn'}" onclick="toggleProjectLock()">${p?.locked ? '🔓 ロック解除' : '🔒 この内容でロック'}</button>
+        </div>
+    `;
     document.getElementById('reviewArea').innerHTML = `
-        <h2>調査報告書</h2>
+        <h2>調査報告書${p?.locked ? '<span class="lock-badge">ロック中</span>' : ''}</h2>
+        ${previewActions}
         <div style="margin-bottom:10px;">現場名：${esc(p?.name || '')}</div>
         <div style="margin-bottom:10px;">担当者：${esc(p?.author || '')}</div>
         ${figureHtml}
         <h3 style="margin-top:18px;">詳細一覧</h3>
         <table>
-            <thead><tr><th>種別</th><th>頁</th>${currentFields.map(f => `<th>${esc(f.name)}</th>`).join('')}</tr></thead>
+            <thead><tr><th>選択</th><th>No.</th><th>種別</th><th>頁</th>${currentFields.map(f => `<th>${esc(f.name)}</th>`).join('')}</tr></thead>
             <tbody>${rows || '<tr><td colspan="99">記録なし</td></tr>'}</tbody>
         </table>
     `;
@@ -1206,8 +1583,53 @@ async function loadReview() {
 }
 
 
+async function selectAnnotationFromReview(id) {
+    markReviewRowSelected(id);
+    const a = await db.annotations.get(id);
+    if(!a || a.isDeleted) return alert("対象のオブジェクトが見つかりません");
+
+    switchView('editor');
+
+    if(map && map.options.crs === L.CRS.Simple && currentPdf && (a.page || 1) !== currentPage) {
+        await loadPdfPage(a.page || 1);
+        await new Promise(res => setTimeout(res, 700));
+    }
+
+    await refreshAnnotations();
+    await new Promise(res => setTimeout(res, 250));
+
+    const m = markers[id];
+    highlightSelectedAnnotation(a);
+
+    if(m) {
+        if(m.layer.getLatLng) {
+            map.panTo(m.layer.getLatLng());
+            openEdit(id);
+            if(m.layer.openTooltip) m.layer.openTooltip();
+        } else if(a.points?.[0]) {
+            try {
+                const bounds = L.latLngBounds(a.points.map(p => [p[0], p[1]]));
+                map.fitBounds(bounds, { padding:[70,70], animate:true });
+            } catch(e) {
+                map.panTo([a.points[0][0], a.points[0][1]]);
+            }
+        }
+    } else {
+        alert("対象ページを表示しました。青い強調表示が出ない場合は少し拡大してください。");
+    }
+}
+
+
+async function prepareReportPreview() {
+    if(!currentProjectId) return alert("現場を選択してください");
+    latestDrawingCapture = null;
+    await loadReview();
+    switchView('review');
+}
+
 async function preparePrint() {
     if(!currentProjectId) return alert("現場を選択してください");
+    if(!confirm("報告書プレビューを更新してPDF出力画面を開きます。よろしいですか？")) return;
     const p = await db.projects.get(currentProjectId);
     if(p?.mode === 'gsi') {
         try {
@@ -1215,6 +1637,16 @@ async function preparePrint() {
         } catch (e) {
             console.error(e);
             alert('地図画像の取得に失敗しました。編集画面を一度開いてから再度お試しください。');
+            return;
+        }
+    }
+    if(p?.mode === 'pdf') {
+        try {
+            latestDrawingCapture = null;
+            await captureCurrentDrawingView();
+        } catch (e) {
+            console.error(e);
+            alert('図面画像の取得に失敗しました。編集画面を一度開いてから再度お試しください。');
             return;
         }
     }
